@@ -1,0 +1,21 @@
+/* resources/css/custom.css */
+.fi-ta-table {
+    background-color: #f8fafc; /* Warna background tabel */
+}
+
+.fi-ta-header-cell {
+    background-color: #e2e8f0; /* Warna header */
+    color: #1e293b;
+}
+
+.fi-ta-row:hover {
+    background-color: #f1f5f9; /* Warna saat hover */
+}
+
+.fi-ta-row:nth-child(even) {
+    background-color: #ffffff; /* Warna baris genap */
+}
+
+.fi-ta-row:nth-child(odd) {
+    background-color: #f9fafb; /* Warna baris ganjil */
+}
