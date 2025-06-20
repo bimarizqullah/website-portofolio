@@ -76,7 +76,7 @@ class ProjectImageResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::macdke(),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

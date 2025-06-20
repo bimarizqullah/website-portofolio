@@ -5,22 +5,21 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProfileResource\Pages;
 use App\Filament\Resources\ProfileResource\RelationManagers;
 use App\Models\Profile;
-use Directory;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use League\Flysystem\Visibility;
 
 class ProfileResource extends Resource
 {
     protected static ?string $model = Profile::class;
+    protected static ?string $navigationLabel = 'Profiles';
     protected static ?string $navigationGroup = 'Web Pages';
+
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
@@ -28,22 +27,25 @@ class ProfileResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
                     ->required()
-                    ->maxLength(255),
+                    ->default(null),
                 Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->default(null),
                 FileUpload::make('photo')
-                    ->label('Photo')
-                    ->directory('photo-images')
+                    ->label('Image')
+                    ->directory('project-profile')
                     ->image()
                     ->imagePreviewHeight('100')
                     ->previewable()
-                    ->nullable(), 
+                    ->required(),
                 Forms\Components\Textarea::make('bio')
+                    ->required()
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('cv_link')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->default(null),
             ]);
     }
 
@@ -55,11 +57,13 @@ class ProfileResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                ImageColumn::make('photo')
-                    ->label('Photo')
+                Tables\Columns\ImageColumn::make('photo')
+                    ->label('Image')
                     ->getStateUsing(fn ($record) => asset('storage/' . $record->photo))
                     ->square()
                     ->height(100),
+                Tables\Columns\TextColumn::make('cv_link')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
